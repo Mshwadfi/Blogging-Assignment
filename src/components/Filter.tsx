@@ -20,7 +20,7 @@ const Filter = () => {
     setStartIdx(prev => (endIdx - startIdx > 10)? prev + 1 : prev);
   }
   return (
-    <div className="flex flex-col items-start mt-8 container mx-auto">
+    <div className="hidden sm:flex flex-col items-start mt-8 container mx-auto sm: w-[60%] sm:mx-auto">
       <div className="flex gap-4 mx-auto">
         {tags.slice(startIdx , endIdx).map(tag => (
           <div
