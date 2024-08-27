@@ -24,3 +24,27 @@ export const loginUser = (email: string, password: string, navigate: NavigateFun
       console.log('An error occurred:', error.response);
     });
 };
+
+
+
+export const registerUser = (formData: FormData) => {
+  axios.post('http://localhost:1337/api/auth/local/register', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data', 
+    },
+  })
+  .then(response => {
+    console.log('Well done!');
+    console.log('User profile', response.data.user);
+    console.log('User token', response.data.jwt);
+  })
+  .catch(error => {
+    // Handle error
+    if (axios.isAxiosError(error)) {
+      console.error('An error occurred:', error.response || error.message);
+    } else {
+      console.error('Unexpected error:', error);
+    }
+  });
+};
+

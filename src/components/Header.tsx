@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { toggleLoginForm } from '../redux/UiInteractions';
+import { toggleLoginForm, toggleRegisterForm } from '../redux/UiInteractions';
 import UserMenu from './UserMenu';
 import Cookies from 'js-cookie';
 
@@ -55,12 +55,12 @@ const Header = () => {
           <Link to="/" className='py-2 text-gray-700 font-semibold hover:text-blue-600 transition duration-300' onClick={toggleMenu}>Home</Link>
           <Link to="/blogs" className='py-2 text-gray-700 font-semibold hover:text-blue-600 transition duration-300' onClick={toggleMenu}>Blogs</Link>
           <Link to="/profile" className='py-2 text-gray-700 font-semibold hover:text-blue-600 transition duration-300' onClick={toggleMenu}>Profile</Link>
-          {/* <Link to="/login"> */}
+          <Link to="/login">
             <button className='text-gray-800 font-medium border border-gray-300 rounded-lg px-4 py-2 mt-4 hover:bg-gray-100 transition duration-300'>
               Log in
             </button>
-          {/* </Link> */}
-          <Link to="/signup">
+          </Link>
+          <Link to="/register">
             <button className='text-white bg-blue-600 rounded-lg px-4 py-2 mt-4 font-medium hover:bg-blue-700 transition duration-300'>
               Sign Up
             </button>
@@ -68,13 +68,14 @@ const Header = () => {
         </div>
       </div>
      { userToken && <div className='hidden sm:flex gap-4 mt-4 sm:mt-0'>
-        {/* <Link to="/login"> */}
+        <Link to="/login">
           <button className='text-gray-800 font-medium border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-100 transition duration-300'
           onClick={()=>dispatch(toggleLoginForm())}
           >Log in</button>
-        {/* </Link> */}
-        <Link to="/signup">
-          <button className='text-white bg-black rounded-lg px-4 py-2 font-medium hover:bg-blue-700 transition duration-300'>Sign Up</button>
+        </Link>
+        <Link to="/register">
+          <button className='text-white bg-black rounded-lg px-4 py-2 font-medium hover:bg-blue-700 transition duration-300'
+          onClick={()=>dispatch(toggleRegisterForm())}>Sign Up</button>
         </Link>
       </div>}
       {userToken && <UserMenu />}
