@@ -20,7 +20,7 @@ const Login = () => {
   return (
     <div className='fixed inset-0 flex flex-col items-center justify-center '>
       <h2 className='text-2xl font-bold mb-4'>Log In</h2>
-      <div className='bg-white p-6 rounded-lg flex items-center justify-center gap-16 w-full max-w-4xl'>
+      <div className='bg-white p-6 rounded-lg flex flex-col sm:flex-row items-center justify-center gap-16 w-full max-w-4xl'>
         {/* User Image Section */}
         <div className='w-1/2'>
           <img
@@ -30,7 +30,7 @@ const Login = () => {
           />
         </div>
 
-        <div className='w-1/2 p-6'>
+        <div className='w-2/3 p-6'>
           
           <form onSubmit={handleSubmit}>
             <label className='block mb-2'>
@@ -60,14 +60,14 @@ const Login = () => {
               Log In
             </button>
           </form>
-          <button
+          {/* <button
             className='absolute top-4 right-4 text-gray-800 hover:text-blue-600'
             onClick={()=>dispatch(toggleLoginForm())}
           >
             <svg className='w-6 h-6' fill='none' stroke='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
               <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
             </svg>
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

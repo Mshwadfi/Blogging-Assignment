@@ -368,6 +368,7 @@ export interface ApiBlogBlog extends Schema.CollectionType {
     singularName: 'blog';
     pluralName: 'blogs';
     displayName: 'blog';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -377,13 +378,13 @@ export interface ApiBlogBlog extends Schema.CollectionType {
     heading: Attribute.Text &
       Attribute.Required &
       Attribute.SetMinMaxLength<{
-        minLength: 10;
+        minLength: 1;
         maxLength: 100;
       }>;
-    image: Attribute.Media<'images'> & Attribute.Required;
+    image: Attribute.Media<'images'>;
     content: Attribute.Text & Attribute.Required;
     readTime: Attribute.Integer & Attribute.Required;
-    user: Attribute.Relation<
+    users_permissions_user: Attribute.Relation<
       'api::blog.blog',
       'manyToOne',
       'plugin::users-permissions.user'
@@ -806,12 +807,12 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    profile_Photo: Attribute.Media<'images'> & Attribute.Required;
     blogs: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
       'api::blog.blog'
     >;
-    profile_Photo: Attribute.Media<'images'> & Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

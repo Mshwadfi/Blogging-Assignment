@@ -20,7 +20,7 @@ const Pagination = ({ blogs }: { blogs: Blog[] }) => {
 
     const blogsPerPage = 8;
     const totalPages = Math.ceil(blogs.length / blogsPerPage);
-    const slidingWindow = [1,2,3,4];
+    // const slidingWindow = [1,2,3,4];
 
     const handlePrev = () => {
         if (currentPage > 0) {
@@ -56,15 +56,7 @@ const Pagination = ({ blogs }: { blogs: Blog[] }) => {
                 Prev
             </button>
             <div className='flex justify-center items-center gap-4'>
-            {Array.from({ length: totalPages }, (_, index) => (
-                <button
-                    key={index}
-                    className={`w-12 h-12 rounded-md ${index === currentPage ? 'bg-black text-white' : ''}`}
-                    onClick={() => handlePageClick(index)}
-                >
-                    {index + 1}
-                </button>
-            ))}
+                {`${currentPage + 1} / ${totalPages}`}
             </div>
             <button
                 className='py-2 px-4 border-[1px] border-black rounded-md'

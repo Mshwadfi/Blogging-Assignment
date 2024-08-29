@@ -9,6 +9,9 @@ import Blogs from './components/Blogs';
 import Home from './components/Home';
 import Register from './components/Register';
 import Main from './components/Main';
+import CreateBlog from './components/CreateBlog';
+import BlogPage from './components/BlogPage';
+import UpdateBlog from './components/UpdateBlog';
 
 function App() {
   return (
@@ -19,7 +22,10 @@ function App() {
             <Route index element={<Home />} /> 
             <Route path="login" element={<Login />} />
             <Route path="blogs" element={<Blogs />} />
-            <Route path='register' element={Register} />
+            <Route path='register' element={<Register />} />
+            <Route path='Create' element={<CreateBlog />} />
+            <Route path='/blog/:id' element={<BlogPage />} />
+            <Route path='/blog/update/:id' element={<UpdateBlog />} />
           </Route>
         </Routes>
       </Router>

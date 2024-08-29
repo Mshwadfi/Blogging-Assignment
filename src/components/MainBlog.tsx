@@ -2,7 +2,7 @@ import React from 'react'
 
 const MainBlog = () => {
   return (
-    <div className='container flex flex-col sm:flex-row items-start justify-start gap-8 sm:gap-16 bg-white rounded-lg'>
+    <div className='container flex flex-col sm:flex-row items-start justify-start gap-4 sm:gap-16 bg-white rounded-lg'>
       <img 
         alt='blog_img' 
         src='https://images.pexels.com/photos/27221310/pexels-photo-27221310/free-photo-of-a-plate-with-scrambled-eggs-tomatoes-and-other-ingredients.jpeg?auto=compress&cs=tinysrgb&w=400&lazy=load' 
