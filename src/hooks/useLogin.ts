@@ -3,10 +3,10 @@ import Cookies from 'js-cookie';
 import { NavigateFunction } from 'react-router-dom';
 import { addUser } from '../redux/userSlice';
 import { AnyAction, Dispatch } from 'redux';
-import { toggleUserMenu } from '../redux/UiInteractions';
+import { toggleIsAuth, toggleUserMenu } from '../redux/UiInteractions';
 
 export const loginUser = (email: string, password: string, navigate: NavigateFunction, dispatch : Dispatch<AnyAction>) => {
-  // const dispatch = useDispatch()
+  
   axios
     .post('http://localhost:1337/api/auth/local', {
       identifier: email,

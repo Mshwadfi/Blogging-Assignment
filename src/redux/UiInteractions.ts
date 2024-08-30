@@ -8,15 +8,23 @@ const UiInteractionsSlice = createSlice({
         isLoginFormOpen: false,
         isRegisterFormOpen: false,
         isUserMenuOn: false,
-        isBlogDeleted: false,
+        isBlogsUpdated: false,
+        isUpdateBlogFormOpen: false,
+        currentBlogId: null,
+        isAuth: false,
     },
     reducers: {
         toggleLoginForm: (state)=> {state.isLoginFormOpen = !state.isLoginFormOpen},
         toggleRegisterForm: (state)=> {state.isRegisterFormOpen = !state.isRegisterFormOpen},
         toggleUserMenu: (state)=>{state.isUserMenuOn = !state.isUserMenuOn},
-        toggleBlogDeletionState: (state) =>{state.isBlogDeleted = !state.isBlogDeleted}
+        toggleBlogsUpdateState: (state) =>{state.isBlogsUpdated = !state.isBlogsUpdated},
+        toggleIsAuth: (state)=>{state.isAuth = !state.isAuth},
+        toggleUpdateBlogForm: (state , action) =>{
+            state.isUpdateBlogFormOpen = !state.isUpdateBlogFormOpen;
+            state.currentBlogId = action.payload;
+        }
     }
 })
 
-export const {toggleLoginForm , toggleRegisterForm, toggleUserMenu , toggleBlogDeletionState} = UiInteractionsSlice.actions;
+export const {toggleLoginForm , toggleRegisterForm,toggleIsAuth, toggleUserMenu , toggleBlogsUpdateState , toggleUpdateBlogForm} = UiInteractionsSlice.actions;
 export default UiInteractionsSlice.reducer;

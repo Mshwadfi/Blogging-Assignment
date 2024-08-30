@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { toggleBlogsUpdateState, toggleUpdateBlogForm } from '../redux/UiInteractions';
+import { fetchSingleBlog } from '../hooks/fetchSingleBlog'
+import axios from 'axios';
+import { UpdateBlogs } from '../redux/blogsSlice';
 
 const UpdateBlog = () => {
   const [formData, setFormData] = useState({
@@ -11,36 +16,26 @@ const UpdateBlog = () => {
     readTime: '',
   });
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { currentBlogId } = useSelector((state: RootState) => state.UiInteractions);
   const navigate = useNavigate();
-  const { id } = useParams();
+  const dispatch = useDispatch();
 
-  const token = Cookies.get('token'); // Replace this with your actual JWT token
+  const token = Cookies.get('token') || '';
 
   useEffect(() => {
-    const fetchBlog = async () => {
-      try {
-        const response = await axios.get(`http://localhost:1337/api/blogs/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const blog = response.data.data;
-        setFormData({
-          tag: blog.attributes.tag,
-          heading: blog.attributes.heading,
-          content: blog.attributes.content,
-          readTime: blog.attributes.readTime,
-        });
-        setLoading(false);
-      } catch (err) {
-        setError('Failed to fetch the blog details.');
-        setLoading(false);
-      }
-    };
+    getBlog();
+  }, [currentBlogId, token]);
 
-    fetchBlog();
-  }, [id, token]);
+  const getBlog = async () => {
+      const blog = await fetchSingleBlog(currentBlogId, token);
+      setFormData({
+        tag: blog.attributes.tag,
+        heading: blog.attributes.heading,
+        content: blog.attributes.content,
+        readTime: blog.attributes.readTime,
+      });
+      setLoading(false);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -49,27 +44,41 @@ const UpdateBlog = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:1337/api/blogs/${id}`, {
+      await axios.put(`http://localhost:1337/api/blogs/${currentBlogId}`, {
         data: formData,
       }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      navigate(`/blog/${id}`);
+      dispatch(toggleUpdateBlogForm(null));
+      dispatch(toggleBlogsUpdateState())
+      // navigate(`/blog/${currentBlogId}`);
     } catch (error) {
       console.error('Error updating blog:', error);
-      setError('Failed to update the blog.');
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) return null;
 
   return (
-    <div className='fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center'>
-      <div className='bg-white p-6 rounded-lg w-full max-w-md'>
-        <h2 className='text-xl font-bold mb-4'>Update Blog</h2>
+    <div className='fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-10'>
+      <div className='bg-white relative p-6 rounded-lg w-full max-w-md'>
+        <button
+          onClick={() => dispatch(toggleUpdateBlogForm(null))}
+          className='absolute top-2 right-2 text-gray-600 hover:text-gray-800'
+        >
+          <svg
+            className='w-6 h-6'
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' />
+          </svg>
+        </button>
+        <h2 className='text-xl text-center font-bold mb-4'>Update Blog</h2>
         <form onSubmit={handleSubmit}>
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-bold mb-2'>Tag</label>
@@ -111,7 +120,7 @@ const UpdateBlog = () => {
               className='w-full px-3 py-2 border rounded'
             />
           </div>
-          <button type='submit' className='bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700'>
+          <button type='submit' className='bg-black text-white py-2 px-4 rounded'>
             Update Blog
           </button>
         </form>

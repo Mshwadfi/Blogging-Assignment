@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import paginationReducer from "./pagination";
 import UiInteractionsReducer from "./UiInteractions";
 import userSliceReducer from "./userSlice";
+import blogsSliceReducer from "./blogsSlice";
 
 
 const store = configureStore({
@@ -9,6 +10,7 @@ const store = configureStore({
         pagination: paginationReducer,
         UiInteractions: UiInteractionsReducer,
         user: userSliceReducer,
+        blogs: blogsSliceReducer,
     }
 });
 

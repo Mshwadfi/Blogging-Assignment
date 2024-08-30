@@ -2,72 +2,70 @@ import React, { FormEvent, useState } from 'react';
 import { loginUser } from '../hooks/useLogin';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import { toggleLoginForm } from '../redux/UiInteractions';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { toggleIsAuth } from '../redux/UiInteractions';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const isLoginFormOpen = useSelector((store: RootState) => store.UiInteractions.isLoginFormOpen);
   const dispatch = useDispatch();
+
+  
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // dispatch(toggleIsAuth())
     loginUser(email, password, navigate, dispatch);
   };
 
   return (
-    <div className='fixed inset-0 flex flex-col items-center justify-center '>
-      <h2 className='text-2xl font-bold mb-4'>Log In</h2>
-      <div className='bg-white p-6 rounded-lg flex flex-col sm:flex-row items-center justify-center gap-16 w-full max-w-4xl'>
-        {/* User Image Section */}
-        <div className='w-1/2'>
-          <img
-            src='https://images.pexels.com/photos/2882566/pexels-photo-2882566.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' // Replace with your image path
-            alt='User'
-            className='object-cover w-full h-full rounded-l-lg'
-          />
+    <div className='flex items-center justify-center min-h-screen  px-4'>
+      <div className=' p-8 rounded-lg shadow-lg w-full max-w-sm'>
+        <h2 className='text-2xl font-bold text-white text-center mb-6'>Log In</h2>
+        
+        <form onSubmit={handleSubmit} className='space-y-4'>
+          <div>
+            <label className='block text-gray-400 mb-1'>Email:</label>
+            <input
+              type='email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className='w-full p-3 bg-gray-800 text-white rounded focus:outline-none focus:ring-2 focus:ring-gray-700'
+              required
+            />
+          </div>
+          <div>
+            <label className='block text-gray-400 mb-1'>Password:</label>
+            <input
+              type='password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className='w-full p-3 bg-gray-800 text-white rounded focus:outline-none focus:ring-2 focus:ring-gray-700'
+              required
+            />
+          </div>
+          <button
+            type='submit'
+            className='w-full bg-black text-white py-3 rounded hover:bg-gray-800 transition duration-300'
+          >
+            Log In
+          </button>
+        </form>
+        
+        <div className='text-center mt-4'>
+          <Link to='/forgot-password' className='text-gray-400 hover:text-white text-sm'>
+            Forgot Password?
+          </Link>
         </div>
 
-        <div className='w-2/3 p-6'>
-          
-          <form onSubmit={handleSubmit}>
-            <label className='block mb-2'>
-              Email:
-              <input
-                type='email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className='block w-full mt-1 p-2 border border-gray-300 rounded'
-                required
-              />
-            </label>
-            <label className='block mb-4'>
-              Password:
-              <input
-                type='password'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className='block w-full mt-1 p-2 border border-gray-300 rounded'
-                required
-              />
-            </label>
-            <button
-              type='submit'
-              className='w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700'
-            >
-              Log In
-            </button>
-          </form>
-          {/* <button
-            className='absolute top-4 right-4 text-gray-800 hover:text-blue-600'
-            onClick={()=>dispatch(toggleLoginForm())}
-          >
-            <svg className='w-6 h-6' fill='none' stroke='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
-              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
-            </svg>
-          </button> */}
+        <div className='text-center mt-2'>
+          <span className='text-gray-400 text-sm'>
+            Don't have an account?{' '}
+            <Link to='/register' className='text-gray-400 hover:text-white font-semibold'>
+              Register
+            </Link>
+          </span>
         </div>
       </div>
     </div>

@@ -1,26 +1,18 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCurrentPage, updateEndIdx, updateStartIdx } from '../redux/pagination';
 import { RootState } from '../redux/store';
+import { BlogPost, blogsPerPage } from '../utils/constants';
 
-interface Blog {
-    imgSrc: string;
-    tag: string;
-    heading: string;
-    date: string;
-    readTime: string;
-}
 
-const Pagination = ({ blogs }: { blogs: Blog[] }) => {
+const Pagination = ({ blogs }: { blogs: BlogPost[] }) => {
     useEffect(()=>{
         dispatch(updateEndIdx(Math.min(8 , blogs.length)))
     },[])
     const dispatch = useDispatch();
     const { startIdx, endIdx, currentPage } = useSelector((state: RootState) => state.pagination);
 
-    const blogsPerPage = 8;
     const totalPages = Math.ceil(blogs.length / blogsPerPage);
-    // const slidingWindow = [1,2,3,4];
 
     const handlePrev = () => {
         if (currentPage > 0) {
@@ -40,14 +32,8 @@ const Pagination = ({ blogs }: { blogs: Blog[] }) => {
         }
     }
 
-    const handlePageClick = (index : number)=>{
-        dispatch(updateCurrentPage(index));
-        dispatch(updateStartIdx(index*blogsPerPage));
-        dispatch(updateEndIdx(Math.min(blogs.length - 1 , (index+1)*blogsPerPage)))
-    }
-
     return (
-        <div className='flex items-center justify-between'>
+        <div className='flex items-center justify-between px-5'>
             <button
                 className='py-2 px-4 border-[1px] border-black rounded-md'
                 onClick={handlePrev}

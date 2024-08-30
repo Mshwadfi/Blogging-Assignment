@@ -6,7 +6,7 @@ interface Blog {
     readTime: string;
   }
 
-  
+ export const blogsPerPage = 8; 
 export const blogs: Blog[] = [
   {
     imgSrc: 'https://images.pexels.com/photos/2072164/pexels-photo-2072164.jpeg?auto=compress&cs=tinysrgb&w=400&lazy=load',

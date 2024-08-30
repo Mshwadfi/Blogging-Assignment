@@ -11,7 +11,6 @@ import Register from './components/Register';
 import Main from './components/Main';
 import CreateBlog from './components/CreateBlog';
 import BlogPage from './components/BlogPage';
-import UpdateBlog from './components/UpdateBlog';
 
 function App() {
   return (
@@ -25,7 +24,7 @@ function App() {
             <Route path='register' element={<Register />} />
             <Route path='Create' element={<CreateBlog />} />
             <Route path='/blog/:id' element={<BlogPage />} />
-            <Route path='/blog/update/:id' element={<UpdateBlog />} />
+            {/* <Route path='/blog/update/:id' element={<UpdateBlog />} /> */}
           </Route>
         </Routes>
       </Router>

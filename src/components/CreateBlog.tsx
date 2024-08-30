@@ -1,6 +1,8 @@
 import React, { useState, FormEvent } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { toggleBlogsUpdateState } from '../redux/UiInteractions';
 
 const CreateBlog = () => {
   const [heading, setHeading] = useState<string>('');
@@ -10,7 +12,7 @@ const CreateBlog = () => {
   const [image, setImage] = useState<File | null>(null);
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
-
+  const dispatch = useDispatch();
   const getToken = () => Cookies.get('token');
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +29,6 @@ const CreateBlog = () => {
     const token = getToken();
 
     try {
-      // Fetch the current user
       const userResponse = await axios.get('http://localhost:1337/api/users/me', {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -36,16 +37,14 @@ const CreateBlog = () => {
       console.log(userResponse , 'rr')
       const currentUser = localStorage.getItem('user');
 
-      // Prepare blog data including the user relation
       const blogData = {
         tag,
         heading,
         content,
         readTime,
-        users_permissions: currentUser, // Link the blog to the current user
+        users_permissions: currentUser, 
       };
       console.log(blogData);
-      // Create the blog entry
       const blogResponse = await axios.post('http://localhost:1337/api/blogs', { data: blogData }, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -53,12 +52,11 @@ const CreateBlog = () => {
       });
 
       if (image) {
-        // If there's an image, upload it separately
         const formData = new FormData();
         formData.append('files', image);
-        formData.append('ref', 'api::blog.blog'); // Assuming 'blog' is the content type
-        formData.append('refId', blogResponse.data.data.id); // Reference the blog post's ID
-        formData.append('field', 'image'); // The field in Strapi where the image should be stored
+        formData.append('ref', 'api::blog.blog'); 
+        formData.append('refId', blogResponse.data.data.id); 
+        formData.append('field', 'image'); 
 
         const hres = await axios.post('http://localhost:1337/api/upload', formData, {
           headers: {
@@ -71,6 +69,7 @@ const CreateBlog = () => {
       console.log(blogResponse )
 
       setSuccess('Blog created successfully with image and linked to the current user!');
+      dispatch(toggleBlogsUpdateState())
     } catch (err: any) {
       setError(err.response?.data?.error?.message || 'An error occurred while creating the blog.');
       console.error(err);
@@ -78,7 +77,7 @@ const CreateBlog = () => {
   };
 
   return (
-    <div className='p-4 max-w-[60%] mx-auto mt-10'>
+    <div className='p-4 sm:max-w-[70%] md:max-w-[30%] mx-auto mt-10'>
       <h1 className='text-2xl font-bold mb-4'>Create New Blog</h1>
       {error && <p className='text-red-500 mb-4'>{error}</p>}
       {success && <p className='text-green-500 mb-4'>{success}</p>}
@@ -132,7 +131,7 @@ const CreateBlog = () => {
         </label>
         <button
           type='submit'
-          className='bg-blue-500 text-white p-2 rounded'
+          className='bg-black w-1/3 text-white p-2 rounded'
         >
           Create Blog
         </button>

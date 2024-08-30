@@ -2,8 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { toggleBlogDeletionState } from '../redux/UiInteractions';
+import { toggleBlogsUpdateState, toggleUpdateBlogForm } from '../redux/UiInteractions';
 
 const DropdownMenu = ({id}:{id:number}) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,8 +24,13 @@ const DropdownMenu = ({id}:{id:number}) => {
       console.log(error);
     }
     setIsOpen(!isOpen);
-    dispatch(toggleBlogDeletionState());
+    dispatch(toggleBlogsUpdateState());
   };
+
+  const handleUpdate = ()=>{
+    dispatch(toggleUpdateBlogForm(id));
+    setIsOpen(!isOpen)
+  }
 
   return (
     <div className="relative inline-block text-left">
@@ -48,12 +52,11 @@ const DropdownMenu = ({id}:{id:number}) => {
       </button>
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg">
-          <Link to={`/blog/update/${id}`}
-            
+          <button onClick={handleUpdate}
             className="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left"
           >
             Update
-          </Link>
+          </button>
           <button 
             onClick={handleDelete} 
             className="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left"
