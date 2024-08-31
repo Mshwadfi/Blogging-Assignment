@@ -47,7 +47,7 @@ const Blogs = () => {
       const response = await axios.get('http://localhost:1337/api/blogs?populate=*');
       const blogData = response.data.data;
       dispatch(UpdateBlogs(blogData));
-      filterBlogs(selectedTag, blogData); // Apply filter after updating blogs
+      filterBlogs(selectedTag, blogData);
     } catch (error) {
       console.error("Failed to fetch blogs:", error);
     }
@@ -71,7 +71,7 @@ const Blogs = () => {
         <div className="w-full h-[1px] bg-gray-500 mt-2"></div>
       </div>
       <div className='flex flex-col sm:flex-row items-center justify-center gap-5 flex-wrap p-3'>
-        {filteredBlogs.slice(startIdx, endIdx + 1).map((blog, index) => (
+        {filteredBlogs.slice(startIdx, endIdx ).map((blog, index) => (
           <BlogCard blog={blog} key={index} />
         ))}
       </div>

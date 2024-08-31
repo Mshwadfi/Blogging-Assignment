@@ -5,7 +5,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Login from '../components/Login';
-import store from '../redux/store'; // Import your configured store
+import store from '../redux/store'; 
 import { loginUser } from '../hooks/useLogin';
 
 jest.mock('../hooks/useLogin', () => ({

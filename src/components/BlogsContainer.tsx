@@ -36,7 +36,7 @@ const BlogsContainer = () => {
           <BlogCard blog={blog} key={index} />
         ))}
       </div>
-      {Math.ceil(blogs.length / blogsPerPage) > 1 && <Pagination blogs={blogs} />}
+      {/* {Math.ceil(blogs.length / blogsPerPage) > 1 && <Pagination blogs={blogs} />} */}
     </div>
   );
 };
