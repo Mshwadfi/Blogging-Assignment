@@ -11,7 +11,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const isAuthenticated = useSelector((state: RootState) => state.user.isAuth);
+  const isAuthenticated = useSelector((state: RootState) => state.user.isAuth);
 
   const userToken = Cookies.get('token');
   const toggleMenu = () => {
@@ -23,7 +23,6 @@ const Header = () => {
     localStorage.removeItem('user');
     Cookies.remove('token');
     navigate('/');
-    // setIsMenuOpen(isMenuOpen) //to force rerender
   };
   console.log(isMenuOpen)
 
@@ -67,7 +66,7 @@ const Header = () => {
         {/* <div className='hidden sm:block'>
         {userToken && <UserMenu />}
         </div> */}
-      <div className={`fixed inset-0 bg-white shadow-lg sm:hidden transition-transform duration-300 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`fixed inset-0 bg-white shadow-lg sm:hidden transition-transform duration-300 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ zIndex: 50 }}>
         <button 
           className=' absolute top-4 right-4 p-2 text-gray-800 hover:text-blue-600 transition duration-300'
           aria-label='hamburger'

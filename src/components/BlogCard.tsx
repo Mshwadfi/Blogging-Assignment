@@ -2,14 +2,16 @@ import React from 'react';
 import { BlogPost } from '../utils/constants';
 import { formatDate } from '../hooks/formatDate';
 import DropdownMenu from './DropDownMenu'
+import Cookies from 'js-cookie';
 
 const BlogCard = ({ blog }: { blog: BlogPost }) => {
+  if (!blog) return null;
   const { attributes } = blog;
+  const userToken = Cookies.get('token');
   const imageUrl = `http://localhost:1337${attributes.image?.data?.attributes?.url}`;
   const localDate = formatDate(attributes.createdAt);
 
-  if (!blog) return null;
-
+  console.log(localDate , typeof(localDate))
   return (
     <div className='flex flex-row sm:flex-col gap-3 items-start justify-start sm:gap-4 bg-white rounded-lg'>
       {imageUrl && (
@@ -22,7 +24,7 @@ const BlogCard = ({ blog }: { blog: BlogPost }) => {
       <div className='flex flex-col sm:gap-0 w-full my-auto'>
         <div className='flex items-center justify-between'>
           <h3 className='font-semibold text-red-500 uppercase text-xs sm:text-sm tracking-wide'>{attributes.tag}</h3>
-          <DropdownMenu id={blog?.id}/>
+          {userToken && <DropdownMenu id={blog?.id}/>}
         </div>
         <h1 className='text-sm sm:text-xl font-bold leading-tight text-gray-800 max-w-80'>{attributes?.heading.length > 25? attributes?.heading.slice(0, 25) + '...' : attributes?.heading}</h1>
         <p className='hidden sm:block max-w-80'>{attributes?.content.slice(0, 50)}...</p>
