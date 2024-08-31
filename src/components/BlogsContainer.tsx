@@ -32,7 +32,7 @@ const BlogsContainer = () => {
     <div className='container mx-auto flex flex-col gap-16 p-6 '>
       <MainBlog blog={blogs[0]} />
       <div className='flex flex-col sm:flex-row items-center justify-start gap-5 flex-wrap'>
-        {blogs.slice(startIdx, endIdx + 1).map((blog, index) => (
+        {blogs.slice(1, Math.min(blogsPerPage + 1, blogs.length - 1)).map((blog, index) => (
           <BlogCard blog={blog} key={index} />
         ))}
       </div>
