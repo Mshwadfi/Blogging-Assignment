@@ -3,6 +3,7 @@ import { BlogPost } from '../utils/constants';
 import { formatDate } from '../hooks/formatDate';
 import DropdownMenu from './DropDownMenu'
 import Cookies from 'js-cookie';
+import { Link } from 'react-router-dom';
 
 const BlogCard = ({ blog }: { blog: BlogPost }) => {
   if (!blog) return null;
@@ -13,7 +14,8 @@ const BlogCard = ({ blog }: { blog: BlogPost }) => {
 
   console.log(localDate , typeof(localDate))
   return (
-    <div className='flex flex-row sm:flex-col gap-3 items-start justify-start sm:gap-4 bg-white rounded-lg'>
+    <Link to={`/blog/${blog?.id}`}>
+      <div className='flex flex-row sm:flex-col gap-3 items-start justify-start sm:gap-4 bg-white rounded-lg'>
       {imageUrl && (
         <img 
           alt='blog_img' 
@@ -38,6 +40,7 @@ const BlogCard = ({ blog }: { blog: BlogPost }) => {
         </div>
       </div>
     </div>
+    </Link>
   );
 };
 
