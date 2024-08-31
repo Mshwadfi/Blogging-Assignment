@@ -8,7 +8,7 @@ import { BlogPost, blogsPerPage } from '../utils/constants';
 const Pagination = ({ blogs }: { blogs: BlogPost[] }) => {
     const dispatch = useDispatch();
     useEffect(()=>{
-        dispatch(updateEndIdx(Math.min(blogsPerPage - 1 , blogs.length - 1)))
+        dispatch(updateEndIdx(Math.min(blogsPerPage  , blogs.length - 1)))
     },[blogs.length, dispatch])
     const { startIdx, endIdx, currentPage } = useSelector((state: RootState) => state.pagination);
 
@@ -18,11 +18,13 @@ const Pagination = ({ blogs }: { blogs: BlogPost[] }) => {
         if (currentPage > 0) {
             const newPage = currentPage - 1;
             dispatch(updateCurrentPage(newPage));
-            dispatch(updateStartIdx(Math.max(0, startIdx - blogsPerPage)));
-            dispatch(updateEndIdx(Math.max(blogsPerPage , endIdx - blogsPerPage)));
+            const newStartIdx = Math.max(0, startIdx - blogsPerPage);
+            const newEndIdx = Math.min(newStartIdx + blogsPerPage, blogs.length - 1);
+            dispatch(updateStartIdx(newStartIdx));
+            dispatch(updateEndIdx(newEndIdx));
         }
-    }
-
+    };
+    
     const handleNext = () => {
         console.log('clicked');
         if (endIdx < blogs.length - 1) {
