@@ -1,5 +1,5 @@
 import React, { FormEvent, useState } from 'react';
-import { registerUser } from '../hooks/useLogin'; // Make sure you have a corresponding hook for registration
+import { registerUser } from '../hooks/useLogin'; 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { toggleRegisterForm } from '../redux/UiInteractions';
@@ -102,6 +102,7 @@ const Register = () => {
         </form>
         <button
           className='absolute top-4 right-4 text-gray-800 hover:text-blue-600'
+          aria-label='close'
           onClick={() => dispatch(toggleRegisterForm())}
         >
           <svg className='w-6 h-6' fill='none' stroke='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
