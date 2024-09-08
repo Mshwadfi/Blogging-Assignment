@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import MainBlog from './MainBlog';
 import BlogCard from './BlogCard';
-import Pagination from './Pagination';
+// import Pagination from './Pagination';
 import { RootState } from '../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateEndIdx } from '../redux/pagination';
@@ -10,7 +10,7 @@ import { UpdateBlogs } from '../redux/blogsSlice';
 import { blogsPerPage } from '../utils/constants';
 
 const BlogsContainer = () => {
-  const { startIdx, endIdx, currentPage } = useSelector((state: RootState) => state.pagination);
+  // const { startIdx, endIdx, currentPage } = useSelector((state: RootState) => state.pagination);
   const isBlogsUpdated = useSelector((state: RootState) => state.UiInteractions.isBlogsUpdated);
   const blogs = useSelector((state: RootState) => state.blogs);  
   const dispatch = useDispatch();

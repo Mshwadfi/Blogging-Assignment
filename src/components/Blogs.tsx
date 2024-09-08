@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import BlogCard from './BlogCard';
@@ -8,7 +8,7 @@ import { updateEndIdx } from '../redux/pagination';
 import Pagination from './Pagination';
 import { BlogPost, blogsPerPage } from '../utils/constants';
 
-const tags = ['All', 'Technology', 'Business', 'Programming', 'Health','Fitness',"Finance"];
+const tags = ['All', 'Technology', 'Business', 'Programming', 'Health', 'Fitness', 'Finance'];
 
 const Blogs = () => {
   const [selectedTag, setSelectedTag] = useState<string>('All');
@@ -17,21 +17,8 @@ const Blogs = () => {
   const { startIdx, endIdx } = useSelector((state: RootState) => state.pagination);
   const isBlogsUpdated = useSelector((state: RootState) => state.UiInteractions.isBlogsUpdated);
   const dispatch = useDispatch();
-  
-  useEffect(() => {
-    fetchBlogs();
-  }, [isBlogsUpdated]); 
 
-  useEffect(() => {
-    filterBlogs(selectedTag, blogs); 
-  }, [blogs, selectedTag]);
-
-  const handleTagFilter = (tag: string) => {
-    setSelectedTag(tag);
-    filterBlogs(tag, blogs);
-  };
-
-  const filterBlogs = (tag: string, blogs: BlogPost[]) => {
+  const filterBlogs = useCallback((tag: string, blogs: BlogPost[]) => {
     let newFilteredBlogs: BlogPost[];
     if (tag === 'All') {
       newFilteredBlogs = blogs;
@@ -40,19 +27,31 @@ const Blogs = () => {
     }
     setFilteredBlogs(newFilteredBlogs);
     dispatch(updateEndIdx(Math.min(8, newFilteredBlogs.length - 1)));
-  };
+  }, [dispatch]);
 
-  const fetchBlogs = async () => {
+  const fetchBlogs = useCallback(async () => {
     try {
       const response = await axios.get('http://localhost:1337/api/blogs?populate=*');
       const blogData = response.data.data;
       dispatch(UpdateBlogs(blogData));
-      filterBlogs(selectedTag, blogData);
+      filterBlogs(selectedTag, blogData); 
     } catch (error) {
       console.error("Failed to fetch blogs:", error);
     }
-  };
+  }, [dispatch, selectedTag, filterBlogs]); 
 
+  useEffect(() => {
+    fetchBlogs();
+  }, [isBlogsUpdated, fetchBlogs]);
+
+  useEffect(() => {
+    filterBlogs(selectedTag, blogs);
+  }, [blogs, selectedTag, filterBlogs]);
+
+  const handleTagFilter = (tag: string) => {
+    setSelectedTag(tag);
+    filterBlogs(tag, blogs);
+  };
 
   return (
     <div className='container mx-auto mt-20 flex flex-col gap-8 p-4 z-0'>
@@ -71,7 +70,7 @@ const Blogs = () => {
         <div className="w-full h-[1px] bg-gray-500 mt-2"></div>
       </div>
       <div className='flex flex-col sm:flex-row items-center justify-center gap-5 flex-wrap p-3'>
-        {filteredBlogs.slice(startIdx, endIdx ).map((blog, index) => (
+        {filteredBlogs.slice(startIdx, endIdx).map((blog, index) => (
           <BlogCard blog={blog} key={index} />
         ))}
       </div>
