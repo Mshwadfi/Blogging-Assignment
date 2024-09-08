@@ -1,9 +1,7 @@
 import React, { FormEvent, useState } from 'react';
 import { registerUser } from '../hooks/useLogin'; 
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+import { useDispatch } from 'react-redux';
 import { toggleRegisterForm } from '../redux/UiInteractions';
-import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -11,8 +9,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
-  const navigate = useNavigate(); // Hook is used here
-  const isRegisterFormOpen = useSelector((store: RootState) => store.UiInteractions.isRegisterFormOpen);
+  // const isRegisterFormOpen = useSelector((store: RootState) => store.UiInteractions.isRegisterFormOpen);
   const dispatch = useDispatch();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {

@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import { NavigateFunction } from 'react-router-dom';
 import { addUser } from '../redux/userSlice';
 import { AnyAction, Dispatch } from 'redux';
-import { toggleIsAuth, toggleUserMenu } from '../redux/UiInteractions';
+import {  toggleUserMenu } from '../redux/UiInteractions';
 
 export const loginUser = (email: string, password: string, navigate: NavigateFunction, dispatch : Dispatch<AnyAction>) => {
   

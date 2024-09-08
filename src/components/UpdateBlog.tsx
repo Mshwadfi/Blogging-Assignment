@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
 import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { toggleBlogsUpdateState, toggleUpdateBlogForm } from '../redux/UiInteractions';
-import { fetchSingleBlog } from '../hooks/fetchSingleBlog'
+import { fetchSingleBlog } from '../hooks/fetchSingleBlog';
 import axios from 'axios';
-import { UpdateBlogs } from '../redux/blogsSlice';
 
 const UpdateBlog = () => {
   const [formData, setFormData] = useState({
@@ -17,16 +15,12 @@ const UpdateBlog = () => {
   });
   const [loading, setLoading] = useState(true);
   const { currentBlogId } = useSelector((state: RootState) => state.UiInteractions);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const token = Cookies.get('token') || '';
 
-  useEffect(() => {
-    getBlog();
-  }, [currentBlogId, token]);
-
-  const getBlog = async () => {
+  const getBlog = useCallback(async () => {
+    try {
       const blog = await fetchSingleBlog(currentBlogId, token);
       setFormData({
         tag: blog.attributes.tag,
@@ -35,7 +29,14 @@ const UpdateBlog = () => {
         readTime: blog.attributes.readTime,
       });
       setLoading(false);
-  };
+    } catch (error) {
+      console.error("Failed to fetch blog:", error);
+    }
+  }, [currentBlogId, token]);
+
+  useEffect(() => {
+    getBlog();
+  }, [getBlog]); // Now getBlog is a dependency
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -52,7 +53,7 @@ const UpdateBlog = () => {
         },
       });
       dispatch(toggleUpdateBlogForm(null));
-      dispatch(toggleBlogsUpdateState())
+      dispatch(toggleBlogsUpdateState());
       // navigate(`/blog/${currentBlogId}`);
     } catch (error) {
       console.error('Error updating blog:', error);

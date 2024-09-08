@@ -1,8 +1,6 @@
-import React from 'react';
 import { useParams } from 'react-router-dom';
 import { BlogPost } from '../utils/constants';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { formatDate } from '../hooks/formatDate';
 
 const BlogPage = () => {

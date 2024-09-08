@@ -1,9 +1,7 @@
 import React, { FormEvent, useState } from 'react';
 import { loginUser } from '../hooks/useLogin';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
-import { toggleIsAuth } from '../redux/UiInteractions';
 
 const Login = () => {
   const [email, setEmail] = useState('');

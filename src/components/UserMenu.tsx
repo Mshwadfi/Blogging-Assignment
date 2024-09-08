@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { removeUser } from '../redux/userSlice';
 import Cookies from 'js-cookie';
@@ -55,7 +55,6 @@ const UserMenu = () => {
           >
             Log Out
           </a>
-          {/* Uncomment if needed */}
           {/* <a
             href="/page"
             className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100"

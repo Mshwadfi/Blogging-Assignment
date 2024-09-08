@@ -1,4 +1,3 @@
-import React from 'react';
 import { BlogPost } from '../utils/constants';
 import { formatDate } from '../hooks/formatDate';
 import DropdownMenu from './DropDownMenu'

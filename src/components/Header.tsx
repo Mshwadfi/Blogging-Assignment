@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toggleLoginForm, toggleRegisterForm } from '../redux/UiInteractions';
-import UserMenu from './UserMenu';
 import Cookies from 'js-cookie';
 import { removeUser } from '../redux/userSlice';
-import { RootState } from '../redux/store';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isAuthenticated = useSelector((state: RootState) => state.user.isAuth);
+  // const isAuthenticated = useSelector((state: RootState) => state.user.isAuth);
 
   const userToken = Cookies.get('token');
   const toggleMenu = () => {
